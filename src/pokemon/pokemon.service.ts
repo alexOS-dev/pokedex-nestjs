@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
+import { Pokemon } from './entities/pokemon.entity';
 
 @Injectable()
 export class PokemonService {
-  create(createPokemonDto: CreatePokemonDto) {
-    return 'This action adds a new pokemon';
-  }
+    constructor(
+        @InjectModel(Pokemon.name)
+        private readonly pokemonModel: Model<Pokemon>,
+    ) {}
 
-  findAll() {
-    return `This action returns all pokemon`;
-  }
+    async create(createPokemonDto: CreatePokemonDto) {
+        createPokemonDto.name = createPokemonDto.name.toLocaleLowerCase();
 
-  findOne(id: number) {
-    return `This action returns a #${id} pokemon`;
-  }
+        const pokemon = await this.pokemonModel.create(createPokemonDto);
 
-  update(id: number, updatePokemonDto: UpdatePokemonDto) {
-    return `This action updates a #${id} pokemon`;
-  }
+        return pokemon;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
-  }
+    findAll() {
+        return `This action returns all pokemon`;
+    }
+
+    findOne(id: number) {
+        return `This action returns a #${id} pokemon`;
+    }
+
+    update(id: number, updatePokemonDto: UpdatePokemonDto) {
+        return `This action updates a #${id} pokemon`;
+    }
+
+    remove(id: number) {
+        return `This action removes a #${id} pokemon`;
+    }
 }
