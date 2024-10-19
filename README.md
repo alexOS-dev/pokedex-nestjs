@@ -10,18 +10,19 @@
 pnpm i
 ```
 
-2. Run the docker-compose
+2. Copy the `.env.template` file to `.env` and fill the values
+
+3. Run the docker-compose to setup the database
 
 ```bash
 docker-compose up -d
 ```
 
-3. Go to `http://localhost:3000/api/v2/seed`
+4. Run the seed to populate the database
+   `http://localhost:3000/api/v2/seed`
 
-4. Run the application
+5. Run the application
 
 ```bash
 pnpm start:dev
 ```
-
-4. Go to `http://localhost:3000/api/v2/pokemons`
