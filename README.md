@@ -16,7 +16,9 @@ pnpm i
 docker-compose up -d
 ```
 
-3. Run the application
+3. Go to `http://localhost:3000/api/v2/seed`
+
+4. Run the application
 
 ```bash
 pnpm start:dev
