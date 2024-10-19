@@ -5,7 +5,7 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { isValidObjectId, Model } from 'mongoose';
+import { DeleteResult, isValidObjectId, Model } from 'mongoose';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { Pokemon } from './entities/pokemon.entity';
@@ -77,12 +77,13 @@ export class PokemonService {
         }
     }
 
-    async remove(id: string) {
-        // const pokemon = await this.findOne(id);
-
-        // await pokemon.deleteOne();
-        const result = this.pokemonModel.findByIdAndDelete(id);
-        return result;
+    async remove(id: string): Promise<DeleteResult> {
+        const { deletedCount } = await this.pokemonModel.deleteOne({
+            _id: id,
+        });
+        if (deletedCount === 0)
+            throw new NotFoundException(`Pokemon with id: ${id} not found`);
+        return;
     }
 
     private handleExceptions(error: any) {
